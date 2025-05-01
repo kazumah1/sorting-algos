@@ -6,7 +6,8 @@ fn main() {
     let start = Instant::now();
     let mut unsorted_list: Vec<i32> = Vec::new();
     fill_list(&mut unsorted_list);
-    bubble_sort(&unsorted_list);
+    insertion_sort(&unsorted_list);
+    // bubble_sort(&unsorted_list);
     let duration = start.elapsed();
     println!("Runtime (s): {:?}", duration);
 }
@@ -40,7 +41,7 @@ fn bubble_sort(list: &Vec<i32>) -> Vec<i32> {
 fn display(i: usize, j: usize, sorted_list: &Vec<i32>) {
     println!("Sorted: {i} Step: {j}");
     print_vec(&sorted_list);
-    // thread::sleep(Duration::from_millis(5));
+    thread::sleep(Duration::from_millis(5));
 }
 fn print_vec(v: &Vec<i32>) {
     let mut out: String = String::new();
@@ -51,8 +52,21 @@ fn print_vec(v: &Vec<i32>) {
     println!("{out}");
 }
 
-// fn insertion_sort(list: &Vec<i32>) -> Vec<i32> {
-//     let mut sorted_list: Vec<i32> = list.clone();
-
-//     sorted_list
-// }
+fn insertion_sort(list: &Vec<i32>) -> Vec<i32> {
+    let mut sorted_list: Vec<i32> = list.clone();
+    for i in 0..(sorted_list.len() - 1) {
+        let mut l = i;
+        let mut r = l - 1;
+        while r as i32 >= 0 && sorted_list[l] < sorted_list[r] {
+            // inversion
+            let temp = sorted_list[r];
+            sorted_list[r] = sorted_list[l];
+            sorted_list[l] = temp;
+            
+            display(i, i - l, &sorted_list);
+            l -= 1;
+            r -= 1;
+        }
+    }
+    sorted_list
+}
