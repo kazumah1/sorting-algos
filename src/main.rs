@@ -1,13 +1,29 @@
-
+use rand::Rng;
+use std::thread;
+use std::time::Duration;
+use std::time::Instant;
 fn main() {
-    let unsorted_list: Vec<i32> = vec![5, 2, 6, 1, 3, 4, 0];
-    let sorted_list: Vec<i32> = bubble_sort(&unsorted_list);
-    println!("{:?}", sorted_list);
+    let start = Instant::now();
+    let mut unsorted_list: Vec<i32> = Vec::new();
+    fill_list(&mut unsorted_list);
+    bubble_sort(&unsorted_list);
+    let duration = start.elapsed();
+    println!("Runtime (s): {:?}", duration);
+}
+
+fn fill_list(list: &mut Vec<i32>) {
+    let mut i = 63; // 63 is visible on full screen terminal
+    let mut rng = rand::rng();
+    while i > 0 {
+        let n = rng.random_range(0..100);
+        list.push(n);
+        i -= 1;
+    }
 }
 
 fn bubble_sort(list: &Vec<i32>) -> Vec<i32> {
     let mut sorted_list: Vec<i32> = list.clone();
-    for _i in 0..sorted_list.len() {
+    for i in 0..sorted_list.len() {
         for l in 0..(sorted_list.len() - 1) {
             let r = l + 1;
             if sorted_list[l] > sorted_list[r] {
@@ -15,7 +31,28 @@ fn bubble_sort(list: &Vec<i32>) -> Vec<i32> {
                 sorted_list[l] = sorted_list[r];
                 sorted_list[r] = temp;
             }
+            display(i, l, &sorted_list);
         }
     }
     sorted_list
 }
+
+fn display(i: usize, j: usize, sorted_list: &Vec<i32>) {
+    println!("Sorted: {i} Step: {j}");
+    print_vec(&sorted_list);
+    // thread::sleep(Duration::from_millis(5));
+}
+fn print_vec(v: &Vec<i32>) {
+    let mut out: String = String::new();
+    for &val in v {
+        let bar = "█".repeat(val as usize);
+        out += format!("{:2}: {}\n", val, bar).as_str();
+    }
+    println!("{out}");
+}
+
+// fn insertion_sort(list: &Vec<i32>) -> Vec<i32> {
+//     let mut sorted_list: Vec<i32> = list.clone();
+
+//     sorted_list
+// }
