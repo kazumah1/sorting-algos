@@ -7,16 +7,16 @@ fn main() {
     let start = Instant::now();
     let mut unsorted_list: Vec<i32> = Vec::new();
     fill_list(&mut unsorted_list);
-    bubble_sort(&unsorted_list);
-    let mut input = String::new();
-    io::stdin().read_line(&mut input).expect("Error");
+    // bubble_sort(&unsorted_list);
+    // let mut input = String::new();
+    // io::stdin().read_line(&mut input).expect("Error");
     insertion_sort(&unsorted_list);
     let duration = start.elapsed();
     println!("Runtime (s): {:?}", duration);
 }
 
 fn fill_list(list: &mut Vec<i32>) {
-    let mut i = 100; // 63 is visible on full screen terminal
+    let mut i = 63; // 63 is visible on full screen terminal
     let mut rng = rand::rng();
     while i > 0 {
         let n = rng.random_range(0..100);
